@@ -17,23 +17,32 @@ class CategoryAdapter(context: Context, categories: List<Category>) : BaseAdapte
 
 	override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 		val categoryView: View
+		val holder: ViewHolder
 
-		//LayoutInflater takes an XML object and turns in into a view that can be used code
-		//So category_list_view is the xml object being inflated and added to val categoryView
-		categoryView = LayoutInflater.from(context).inflate(R.layout.category_list_item, null)
-		//create UI elements base on IDs found in category_list_items.xml(categoryImage &
-		// categoryName)
-		val categoryImage : ImageView = categoryView.findViewById(R.id.categoryImage)
-		val categoryName : TextView = categoryView.findViewById(R.id.categoryName)
+		if (convertView == null) { //checks to see if this is the first time loaded
+			//LayoutInflater takes an XML object and turns in into a view that can be used code
+			//So category_list_view is the xml object being inflated and added to val categoryView
+			categoryView = LayoutInflater.from(context).inflate(R.layout.category_list_item, null)
+
+			holder = ViewHolder() //initialize holder with ViewHolder function
+
+			//create UI elements base on IDs found in category_list_items.xml(categoryImage &
+			// categoryName) and drop them into holder which calls ViewHolder()
+			holder.categoryImage = categoryView.findViewById(R.id.categoryImage)
+			holder.categoryName = categoryView.findViewById(R.id.categoryName)
+
+			categoryView.tag = holder //setting unique value from categoryView to holder
+		} else {
+			holder = convertView.tag as ViewHolder
+			categoryView = convertView
+		}
 
 		val category = categories[position]
-
-		categoryName.text = category.title
-
 		//converting image name(from res drawable) to a resourceId
 		val resourceId = context.resources.getIdentifier(category.image, "drawable", context
 				.packageName)
-		categoryImage.setImageResource(resourceId)
+		holder.categoryImage?.setImageResource(resourceId)
+		holder.categoryName?.text = category.title
 
 		return categoryView
 	}
@@ -50,5 +59,12 @@ class CategoryAdapter(context: Context, categories: List<Category>) : BaseAdapte
 	//returns the number of rows to display(3) in the listView
 	override fun getCount(): Int {
 		return categories.count()
+	}
+
+	//holds an instance of only Views that can be seen on the devices screen. Saves on system
+	// resources.
+	private class ViewHolder {
+		var categoryImage: ImageView? = null
+		var categoryName: TextView? = null
 	}
 }
