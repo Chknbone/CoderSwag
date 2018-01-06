@@ -10,10 +10,7 @@ import android.widget.TextView
 import com.palarran.coderswag.Model.Category
 import com.palarran.coderswag.R
 
-class CategoryAdapter(context: Context, categories: List<Category>) : BaseAdapter() {
-
-	val context = context
-	val categories = categories
+class CategoryAdapter(val context: Context, val categories: List<Category>) : BaseAdapter() {
 
 	override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 		val categoryView: View
@@ -24,14 +21,14 @@ class CategoryAdapter(context: Context, categories: List<Category>) : BaseAdapte
 			//So category_list_view is the xml object being inflated and added to val categoryView
 			categoryView = LayoutInflater.from(context).inflate(R.layout.category_list_item, null)
 
-			holder = ViewHolder() //initialize holder with ViewHolder function
+			holder = ViewHolder() //initialize Holder with ViewHolder function
 
 			//create UI elements base on IDs found in category_list_items.xml(categoryImage &
-			// categoryName) and drop them into holder which calls ViewHolder()
+			// categoryName) and drop them into Holder which calls ViewHolder()
 			holder.categoryImage = categoryView.findViewById(R.id.categoryImage)
 			holder.categoryName = categoryView.findViewById(R.id.categoryName)
 
-			categoryView.tag = holder //setting unique value from categoryView to holder
+			categoryView.tag = holder //setting unique value from categoryView to Holder
 		} else {
 			holder = convertView.tag as ViewHolder
 			categoryView = convertView
