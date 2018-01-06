@@ -2,6 +2,7 @@ package com.palarran.coderswag.Controller
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.palarran.coderswag.Adapters.CategoryAdapter
 import com.palarran.coderswag.R
 import com.palarran.coderswag.Services.DataService
@@ -20,5 +21,12 @@ class MainActivity : AppCompatActivity() {
 
 		//tell listView who/where it needs to listen to
 		categoryListView.adapter = adapter
+
+		//listens for button click
+		categoryListView.setOnItemClickListener { adapterView, view, i, l ->
+			val category = DataService.categories[i]
+			Toast.makeText(this, "You clicked on the ${category.title} cell", Toast
+					.LENGTH_SHORT).show()
+		}
 	}
 }
