@@ -11,8 +11,8 @@ import com.palarran.coderswag.Model.Category
 import com.palarran.coderswag.R
 
 
-class CategoryRecycleAdapter(val context: Context, val categories: List<Category>) : RecyclerView
-.Adapter<CategoryRecycleAdapter.Holder>(){
+class CategoryRecycleAdapter(val context: Context, val categories: List<Category>,
+							 val itemClick: (Category) -> Unit) : RecyclerView.Adapter<CategoryRecycleAdapter.Holder>(){
 
 	//Binding prepares child view to hold data that corresponds with is position in the adapter.
 	// Which is passed in from the inner class Holder below
@@ -26,7 +26,7 @@ class CategoryRecycleAdapter(val context: Context, val categories: List<Category
 		val view = LayoutInflater.from(context)
 				.inflate(R.layout.category_list_item, parent, false)
 
-		return Holder(view)
+		return Holder(view, itemClick)
 	}
 
 	//sets items postion from recyclerView
@@ -34,7 +34,8 @@ class CategoryRecycleAdapter(val context: Context, val categories: List<Category
 		return categories.count()
 	}
 
-	inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+	inner class Holder(itemView: View?, val itemClick: (Category) -> Unit) : RecyclerView.ViewHolder
+	(itemView) {
 
 		//Reference to UI elements
 		val categoryImage = itemView?.findViewById<ImageView>(R.id.categoryImage)
@@ -47,6 +48,7 @@ class CategoryRecycleAdapter(val context: Context, val categories: List<Category
 
 			categoryImage?.setImageResource(resourceId)
 			categoryName?.text = category.title
+			itemView.setOnClickListener { itemClick(category) }
 		}
 	}
 }
