@@ -25,11 +25,10 @@ class MainActivity : AppCompatActivity() {
 			startActivity(productIntent)
 		}
 
-		//tell listView who/where it needs to listen to
-		categoryListView.adapter = adapter
-
 		val layoutManager = LinearLayoutManager(this)
 		categoryListView.layoutManager = layoutManager
 		categoryListView.setHasFixedSize(true)
+		//tell listView who/where it needs to listen to
+		categoryListView.adapter = adapter
 	}
 }
